@@ -36,9 +36,8 @@ export function proxy(request: NextRequest) {
 
   if (pathnameHasLocale) return;
 
-  // Locale aus Accept-Language Header ermitteln
-  const acceptLanguage = request.headers.get("accept-language") || "";
-  const locale = getLocaleFromAcceptLanguage(acceptLanguage);
+  // Immer auf Deutsch starten — Nutzer kann in der App umschalten
+  const locale = defaultLocale;
 
   // Weiterleitung zur Locale-URL
   request.nextUrl.pathname = `/${locale}${pathname}`;
