@@ -1,0 +1,10 @@
+node_modules
+.next
+.git
+uploads
+dev.db
+dev.db-journal
+*.md
+.DS_Store
+.env
+.playwright-mcp

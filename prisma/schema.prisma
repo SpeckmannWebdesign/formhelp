@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Form {
+  id               String   @id @default(cuid())
+  title            String
+  description      String?
+  summary          String?
+  type             String   @default("unknown") // "form", "document", "unknown"
+  analysisLanguage String?  // Sprache der Original-Analyse (z.B. "de", "en", "tr")
+  keyPoints        String?  // JSON-Array mit Kernaussagen (nur bei type="document")
+  nextSteps        String?  // JSON-Array mit nächsten Schritten (nur bei type="document")
+  deadlines        String?  // JSON-Array mit Fristen (nur bei type="document")
+  fileUrl          String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  fields           FormField[]
+  translations     FormTranslation[]
+  chatMessages     ChatMessage[]
+}
+
+model ChatMessage {
+  id        String   @id @default(cuid())
+  formId    String
+  role      String   // "user" oder "assistant"
+  content   String
+  locale    String   @default("de")
+  createdAt DateTime @default(now())
+  form      Form     @relation(fields: [formId], references: [id], onDelete: Cascade)
+}
+
+model FormField {
+  id            String   @id @default(cuid())
+  formId        String
+  label         String
+  helpText      String?
+  instructions  String?
+  exampleValue  String?
+  fieldType     String   @default("text")
+  required      Boolean  @default(false)
+  sortOrder     Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  form          Form     @relation(fields: [formId], references: [id], onDelete: Cascade)
+}
+
+model FormTranslation {
+  id        String   @id @default(cuid())
+  formId    String
+  locale    String   // Zielsprache (z.B. "tr", "ar", "en")
+  // Für Formulare: summary-Übersetzung
+  summary   String?
+  // Für Formulare: JSON-Objekt mit Feld-Übersetzungen { fieldId: { helpText, instructions, exampleValue } }
+  fields    String?
+  // Für Dokumente: übersetzte Dokument-Analyse
+  keyPoints String?  // JSON-Array
+  nextSteps String?  // JSON-Array
+  deadlines String?  // JSON-Array
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  form      Form     @relation(fields: [formId], references: [id], onDelete: Cascade)
+
+  @@unique([formId, locale])
+}
