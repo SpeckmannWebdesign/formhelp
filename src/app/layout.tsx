@@ -19,10 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="de" className={`${plusJakarta.variable} ${inter.variable} h-full antialiased`}>
-      <head>
-        <link rel="icon" href="/favicon.png" type="image/png" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-      </head>
+      <head />
       <body className="min-h-full flex flex-col bg-bg-primary text-text-body font-[family-name:var(--font-inter)]">
         {children}
       </body>
