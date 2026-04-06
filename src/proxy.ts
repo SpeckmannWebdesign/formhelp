@@ -47,6 +47,6 @@ export function proxy(request: NextRequest) {
 export const config = {
   matcher: [
     // Alle Pfade außer API, statische Dateien, Bilder und Metadaten
-    "/((?!api|_next/static|_next/image|favicon\\.ico|favicon\\.png|favicon\\.svg|apple-touch-icon\\.png|logo\\.png|logo\\.svg|sitemap\\.xml|robots\\.txt|uploads).*)",
+    "/((?!api|_next/static|_next/image|favicon\\.ico|favicon\\.png|favicon\\.svg|icon\\.png|apple-icon\\.png|apple-touch-icon\\.png|logo\\.png|logo\\.svg|sitemap\\.xml|robots\\.txt|uploads).*)",
   ],
 };
